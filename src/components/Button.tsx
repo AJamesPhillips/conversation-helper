@@ -1,4 +1,4 @@
-import { useMemo } from "preact/hooks"
+import { useMemo } from "react"
 
 import { Person } from "../interfaces"
 import { bound, lerp } from "../utils/math"
