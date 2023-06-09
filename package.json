@@ -12,13 +12,17 @@
     "@reduxjs/toolkit": "1.9.5",
     "preact": "10.13.2",
     "preact-compat": "3.19.0",
-    "react": "18.2.0",
     "react-redux": "8.0.7"
   },
   "devDependencies": {
     "@preact/preset-vite": "2.5.0",
-    "@types/react": "18.2.9",
     "typescript": "5.0.2",
     "vite": "4.3.9"
+  },
+  "resolve": {
+    "alias": {
+      "react": "preact-compat",
+      "react-dom": "preact-compat"
+    }
   }
 }
