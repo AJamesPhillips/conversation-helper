@@ -1,10 +1,21 @@
 import { configureStore } from "@reduxjs/toolkit"
+
+import activity_log_reducer from "./activity_log"
+import config_reducer from "./config"
 import people_reducer from "./people"
+import view_reducer from "./view"
 
 
 export const store = configureStore({
+    middleware: getDefaultMiddleware => getDefaultMiddleware(
+    {
+        serializableCheck: false,
+    }),
     reducer: {
+        activity_log: activity_log_reducer,
+        config: config_reducer,
         people: people_reducer,
+        view: view_reducer,
     },
 })
 
