@@ -21,10 +21,16 @@ export const view_slice = createSlice({
     // `createSlice` will infer the state type from the `initial_state` argument
     initialState: initial_state,
     reducers: {
-        toggle_show_settings: state => {
+        toggle_show_settings: state =>
+        {
             state.show_settings = !state.show_settings
         },
-        set_show_times: (state, action: PayloadAction<boolean>) => {
+        set_show_settings: (state, action: PayloadAction<boolean>) =>
+        {
+            state.show_settings = action.payload
+        },
+        set_show_times: (state, action: PayloadAction<boolean>) =>
+        {
             return {
                 ...state,
                 show_times: action.payload,
@@ -33,7 +39,7 @@ export const view_slice = createSlice({
     },
 })
 
-export const { toggle_show_settings, set_show_times } = view_slice.actions
+export const { toggle_show_settings, set_show_settings, set_show_times } = view_slice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 export const select_show_settings = (state: RootState) => state.view.show_settings

@@ -16,7 +16,7 @@ export function elapsed_time_str (datetime1: Date, datetime2?: Date)
 
     const time_diff_s = Math.round(time_diff_ms / 1000)
 
-    return seconds_to_string(time_diff_s, { always_include_seconds: true })
+    return seconds_to_string(time_diff_s)
 }
 
 
@@ -32,7 +32,7 @@ export function seconds_to_string (seconds: number, options?: { always_include_m
         time_string += `${minutes}m`
     }
 
-    if (partial_seconds || options?.always_include_seconds)
+    if (partial_seconds || (options?.always_include_seconds !== false))
     {
         time_string += ` ${partial_seconds}s`
     }

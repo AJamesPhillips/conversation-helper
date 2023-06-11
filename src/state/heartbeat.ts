@@ -1,11 +1,13 @@
 import { set_current_datetime } from "./activity_log"
-import { AppDispatch } from "./store"
+import { useAppDispatch } from "./hooks"
 
 
 let started = false
 
-export function start_heart_beat (dispatch: AppDispatch)
+export function start_heart_beat ()
 {
+    const dispatch = useAppDispatch()
+
     if (started) return
     started = true
 

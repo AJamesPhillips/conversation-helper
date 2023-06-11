@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest"
 import { underovershare_time } from "./Button"
 import { calculate_min_min2_times } from "./Buttons"
-import { default_target_time_share_seconds } from "../state/config"
+import { default_target_time_share_minutes } from "../state/config"
 
 
-const target_time_share_s = default_target_time_share_seconds
+const target_time_share_s = default_target_time_share_minutes * 60
 const target = target_time_share_s
 const over_target = target_time_share_s * 2
 

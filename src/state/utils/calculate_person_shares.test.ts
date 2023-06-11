@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { calculate_min_min2_times } from "./Buttons"
+import { calculate_min_min2_times } from "./calculate_person_shares"
 
 
 describe("test calculate_min_min2_times", () =>

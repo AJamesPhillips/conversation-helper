@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import type { RootState } from "./store"
 import { LogEntry, Person } from "../interfaces"
 import { get_last_element } from "../utils/array"
-import { default_target_time_share_seconds } from "./config"
+import { default_target_time_share_minutes } from "./config"
 import { remove_person } from "./people"
 
 
@@ -17,10 +17,10 @@ interface ActivityLogState
 const initial_state: ActivityLogState =
 {
     entries: [
-        {
-            person_id: "james",
-            start_datetime: new Date(new Date().getTime() - (default_target_time_share_seconds * 1000)),
-        }
+        // {
+        //     person_id: "james",
+        //     start_datetime: new Date(new Date().getTime() - (default_target_time_share_minutes * 60 * 1000)),
+        // }
     ],
     current_datetime: new Date(),
 }

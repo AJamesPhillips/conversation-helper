@@ -13,9 +13,9 @@ interface PeopleState
 const initial_state: PeopleState =
 {
     people: [
-        {id: "shirley", name: "Shirley"},
-        {id: "jeremy", name: "Jeremy"},
-        {id: "james", name: "James"},
+        // {id: "shirley", name: "Shirley"},
+        // {id: "jeremy", name: "Jeremy"},
+        // {id: "james", name: "James"},
     ]
 }
 
@@ -59,7 +59,8 @@ export const people_slice = createSlice({
 export const { add_person, remove_person } = people_slice.actions
 
 // Other code such as selectors can use the imported `RootState` type
-export const select_people = (state: RootState) => state.people.people
+export const select_all_people = (state: RootState) => state.people.people
+export const select_non_deleted_people = (state: RootState) => state.people.people.filter(p => !p.deleted)
 export const select_person_by_id = (state: RootState) => (person_id: string): Person => state.people.people.find(p => p.id === person_id) || { id: "unknown", name: "Unknown"}
 
 export default people_slice.reducer

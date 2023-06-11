@@ -25,14 +25,13 @@ export function Button (props: Props)
         dispatch(toggle_person_activity(props.person))
     }
 
-    const time_taken_str = seconds_to_string(Math.round(props.time_taken_s), {
-        always_include_seconds: true,
-    })
+    const time_taken_str = seconds_to_string(Math.round(props.time_taken_s))
     const shows_times = useAppSelector(select_show_times)
 
     const size = calculate_person_size_ratio(props)
 
     return <span>
+        {/* title={`Total time taken: ${time_taken_str}`}> */}
         <button
             onClick={on_click_handler}
             style={{ fontSize: person_px_size(size) }}
@@ -113,6 +112,6 @@ function underovershare_time_str (args: UnderOvershareTimeArgs)
     const underovershare = Math.round(underovershare_time(args))
 
     return underovershare >= 0
-        ? seconds_to_string(underovershare, { always_include_seconds: true })
-        : `-${seconds_to_string(-underovershare, { always_include_seconds: true })}`
+        ? seconds_to_string(underovershare)
+        : `-${seconds_to_string(-underovershare)}`
 }

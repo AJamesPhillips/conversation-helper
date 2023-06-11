@@ -2,14 +2,14 @@ import { useState } from "react"
 
 import { Person } from "../../interfaces"
 import { useAppSelector, useAppDispatch } from "../../state/hooks"
-import { select_people, remove_person, add_person, people_are_same_name } from "../../state/people"
+import { select_non_deleted_people, remove_person, add_person, people_are_same_name } from "../../state/people"
 
 
 
 export function PeopleList ()
 {
-    const people = useAppSelector(select_people)
-    const [show_edit_options, set_show_edit_options] = useState(false)
+    const people = useAppSelector(select_non_deleted_people)
+    const [show_edit_options, set_show_edit_options] = useState(people.length === 0)
 
     return <div
         onPointerEnter={() => set_show_edit_options(true)}
@@ -17,7 +17,6 @@ export function PeopleList ()
     >
         <h3>People</h3>
         {people
-            .filter(person => !person.deleted)
             .map(person => <PersonRow
                 key={person.id}
                 person={person}
@@ -58,11 +57,22 @@ function NewPersonForm (props: { show_edit_options: boolean, existing_people: Pe
         || (props.existing_people.find(p => people_are_same_name(p, new_person_name) && !p.deleted) && "Already have person of that name")
     )
 
-    return <div style={{ opacity: props.show_edit_options ? 1 : 0 }}>
+    const people = useAppSelector(select_non_deleted_people)
+    const show_edit_options = props.show_edit_options || new_person_name.length > 0 || people.length === 0
+
+    return <div style={{ opacity: show_edit_options ? 1 : 0.1 }}>
         <input
             type="text"
             value={new_person_name}
             onChange={e => set_new_person_name(e.target.value)}
+            onKeyDown={e =>
+            {
+                if (e.key === "Enter")
+                {
+                    dispatch(add_person(new_person_name))
+                    set_new_person_name("")
+                }
+            }}
         />
         <button
             onPointerDown={() =>
