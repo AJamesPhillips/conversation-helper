@@ -4,7 +4,7 @@ import { Buttons } from "./components/Buttons"
 import { LogList } from "./components/LogList"
 import { useAppDispatch } from "./state/hooks"
 import { toggle_show_settings } from "./state/view"
-import { Settings } from "./components/Settings"
+import { Settings } from "./components/settings/Settings"
 import { start_heart_beat } from "./state/heartbeat"
 
 

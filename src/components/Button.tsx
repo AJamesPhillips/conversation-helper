@@ -36,8 +36,8 @@ export function Button (props: Props)
         <button
             onClick={on_click_handler}
             style={{ fontSize: person_px_size(size) }}
-            onMouseEnter={() => dispatch(set_show_times(true))}
-            onMouseLeave={() => dispatch(set_show_times(false))}
+            onPointerEnter={() => dispatch(set_show_times(true))}
+            onPointerLeave={() => dispatch(set_show_times(false))}
         >
             <Star {...props} size={size} />
             {props.person}
