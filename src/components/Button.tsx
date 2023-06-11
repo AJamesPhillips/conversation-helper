@@ -25,7 +25,7 @@ export function Button (props: Props)
         dispatch(toggle_person_activity(props.person))
     }
 
-    const seconds_str = seconds_to_string(Math.round(props.time_taken_s), {
+    const time_taken_str = seconds_to_string(Math.round(props.time_taken_s), {
         always_include_seconds: true,
     })
     const shows_times = useAppSelector(select_show_times)
@@ -44,7 +44,8 @@ export function Button (props: Props)
             <Star {...props} size={size} />
 
             <div style={{ fontSize: 10, color: `rgba(0, 0, 0, ${shows_times ? 1 : 0})` }}>
-                {seconds_str} {underovershare_time_str(props)}
+                {/* credit: */} {underovershare_time_str(props)}
+                 {/* &nbsp; total: {time_taken_str} */}
             </div>
 
         </button>
@@ -112,6 +113,6 @@ function underovershare_time_str (args: UnderOvershareTimeArgs)
     const underovershare = Math.round(underovershare_time(args))
 
     return underovershare >= 0
-        ? `(credit: ${seconds_to_string(underovershare, { always_include_seconds: true })})`
-        : `(over by: ${seconds_to_string(-underovershare, { always_include_seconds: true })})`
+        ? seconds_to_string(underovershare, { always_include_seconds: true })
+        : `-${seconds_to_string(-underovershare, { always_include_seconds: true })}`
 }

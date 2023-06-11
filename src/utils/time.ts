@@ -37,5 +37,5 @@ export function seconds_to_string (seconds: number, options?: { always_include_m
         time_string += ` ${partial_seconds}s`
     }
 
-    return time_string
+    return time_string.trim()
 }

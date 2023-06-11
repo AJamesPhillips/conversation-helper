@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit"
 import type { RootState } from "./store"
 
 
-export const default_target_time_share_seconds = 5
+export const default_target_time_share_seconds = 180
 
 // Define a type for the slice state
 interface ConfigState
