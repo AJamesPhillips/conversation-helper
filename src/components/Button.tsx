@@ -40,7 +40,7 @@ export function Button (props: Props)
             onPointerLeave={() => dispatch(set_show_times(false))}
         >
             <Star {...props} size={size} />
-            {props.person}
+            {props.person.name}
             <Star {...props} size={size} />
 
             <div style={{ fontSize: 10, color: `rgba(0, 0, 0, ${shows_times ? 1 : 0})` }}>

@@ -3,7 +3,7 @@ import type { RootState } from "./store"
 import { LogEntry, Person } from "../interfaces"
 import { get_last_element } from "../utils/array"
 import { default_target_time_share_seconds } from "./config"
-import { people_are_same, remove_person } from "./people"
+import { remove_person } from "./people"
 
 
 // Define a type for the slice state
@@ -18,7 +18,7 @@ const initial_state: ActivityLogState =
 {
     entries: [
         {
-            person: "James",
+            person_id: "james",
             start_datetime: new Date(new Date().getTime() - (default_target_time_share_seconds * 1000)),
         }
     ],
@@ -77,10 +77,10 @@ export function _toggle_person_activity (state: ActivityLogState, action: Payloa
         stopped_previous = true
     }
 
-    if (!last_log_entry || !stopped_previous || (stopped_previous && !people_are_same(last_log_entry.person, person)))
+    if (!last_log_entry || !stopped_previous || (stopped_previous && last_log_entry.person_id !== person.id))
     {
         const log_entry: LogEntry = {
-            person,
+            person_id: person.id,
             start_datetime: new Date(state.current_datetime),
         }
         entries = [...entries]
@@ -101,7 +101,7 @@ function _stop_person_activity (state: ActivityLogState, action: PayloadAction<P
     const last_log_entry = get_last_element(state.entries)
     let entries = state.entries
 
-    if (last_log_entry && !last_log_entry.stop_datetime && people_are_same(last_log_entry.person, person))
+    if (last_log_entry && !last_log_entry.stop_datetime && last_log_entry.person_id === person.id)
     {
         entries = [...entries]
         entries[entries.length - 1] = {

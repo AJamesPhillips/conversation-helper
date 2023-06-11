@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest"
 import { underovershare_time } from "./Button"
-import { Person } from "../interfaces"
 import { calculate_min_min2_times } from "./Buttons"
 import { default_target_time_share_seconds } from "../state/config"
 
@@ -62,12 +61,12 @@ describe("test underovershare_time", () =>
 
 
 
-function get_args (person: Person, time_per_person_s: {[index: Person]: number})
+function get_args (person_name: string, time_per_person_s: {[index: string]: number})
 {
     const { min_time, min2_time } = calculate_min_min2_times(time_per_person_s)
 
     return {
-        time_taken_s: time_per_person_s[person],
+        time_taken_s: time_per_person_s[person_name],
         target_time_share_s,
         global_min_time_taken_s: min_time,
         global_min2_time_taken_s: min2_time,

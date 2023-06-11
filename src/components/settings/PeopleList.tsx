@@ -1,7 +1,8 @@
 import { useState } from "react"
+
 import { Person } from "../../interfaces"
 import { useAppSelector, useAppDispatch } from "../../state/hooks"
-import { select_people, remove_person, add_person, people_are_same } from "../../state/people"
+import { select_people, remove_person, add_person, people_are_same_name } from "../../state/people"
 
 
 
@@ -15,11 +16,14 @@ export function PeopleList ()
         onPointerLeave={() => set_show_edit_options(false)}
     >
         <h3>People</h3>
-        {people.map(person => <PersonRow
-            key={person}
-            person={person}
-            show_edit_options={show_edit_options}
-        />)}
+        {people
+            .filter(person => !person.deleted)
+            .map(person => <PersonRow
+                key={person.id}
+                person={person}
+                show_edit_options={show_edit_options}
+            />)
+        }
 
         <NewPersonForm show_edit_options={show_edit_options} existing_people={people} />
     </div>
@@ -32,7 +36,7 @@ function PersonRow (props: { person: Person, show_edit_options: boolean })
 
     return <div>
         <div style={{ display: "inline-flex" }}>
-            {props.person} &nbsp;
+            {props.person.name} &nbsp;
             <div
                 style={{ opacity: props.show_edit_options ? 1 : 0, cursor: "pointer" }}
                 title="Remove"
@@ -51,7 +55,7 @@ function NewPersonForm (props: { show_edit_options: boolean, existing_people: Pe
 
     const invalid_new_person_name = (
         (new_person_name.length === 0 && "Must provide a name")
-        || (props.existing_people.find(p => people_are_same(p, new_person_name)) && "Already have person of that name")
+        || (props.existing_people.find(p => people_are_same_name(p, new_person_name) && !p.deleted) && "Already have person of that name")
     )
 
     return <div style={{ opacity: props.show_edit_options ? 1 : 0 }}>
