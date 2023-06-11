@@ -9,6 +9,7 @@ import { default_target_time_share_seconds } from "./config"
 interface ActivityLogState
 {
     entries: LogEntry[]
+    current_datetime: Date
 }
 
 // Define the initial state using that type
@@ -19,7 +20,8 @@ const initial_state: ActivityLogState =
             person: "James",
             start_datetime: new Date(new Date().getTime() - (default_target_time_share_seconds * 1000)),
         }
-    ]
+    ],
+    current_datetime: new Date(),
 }
 
 export const activity_log_slice = createSlice({
@@ -28,13 +30,21 @@ export const activity_log_slice = createSlice({
     initialState: initial_state,
     reducers: {
         toggle_person_activity: _toggle_person_activity,
+        set_current_datetime: (state, action: PayloadAction<Date>) =>
+        {
+            return {
+                ...state,
+                current_datetime: action.payload,
+            }
+        }
     },
 })
 
-export const { toggle_person_activity } = activity_log_slice.actions
+export const { toggle_person_activity, set_current_datetime } = activity_log_slice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 export const select_activity_log_entries = (state: RootState) => state.activity_log.entries
+export const select_current_datetime = (state: RootState) => new Date(state.activity_log.current_datetime)
 
 export default activity_log_slice.reducer
 
@@ -44,7 +54,6 @@ export function _toggle_person_activity (state: ActivityLogState, action: Payloa
 {
     const person = action.payload
 
-    const current_datetime = new Date()
     const last_log_entry = get_last_element(state.entries)
     let entries = state.entries
 
@@ -54,7 +63,7 @@ export function _toggle_person_activity (state: ActivityLogState, action: Payloa
         entries = [...entries]
         entries[entries.length - 1] = {
             ...last_log_entry,
-            stop_datetime: current_datetime,
+            stop_datetime: new Date(state.current_datetime),
         }
 
         stopped_previous = true
@@ -64,7 +73,7 @@ export function _toggle_person_activity (state: ActivityLogState, action: Payloa
     {
         const log_entry: LogEntry = {
             person,
-            start_datetime: current_datetime,
+            start_datetime: new Date(state.current_datetime),
         }
         entries = [...entries]
         entries.push(log_entry)

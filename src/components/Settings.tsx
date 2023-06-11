@@ -7,6 +7,6 @@ export function Settings() {
     const show_settings = useAppSelector(select_show_settings)
 
     return <>
-        {show_settings ? "1" : "0"}
+        {/* {show_settings ? "1" : "0"} */}
     </>
 }

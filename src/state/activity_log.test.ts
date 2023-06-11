@@ -6,17 +6,19 @@ describe("test _toggle_person_activity", () =>
 {
     it("no activities", () =>
     {
-        const { entries } = _toggle_person_activity({ entries: [] }, toggle_person_activity("Alice"))
+        const current_datetime = new Date()
+        const { entries } = _toggle_person_activity({ current_datetime, entries: [] }, toggle_person_activity("Alice"))
         expect(entries.length).toEqual(1)
         expect(entries[0].person).toEqual("Alice")
-        expect(entries[0].start_datetime.getTime()).to.be.approximately(new Date().getTime(), 10)
+        expect(entries[0].start_datetime.getTime()).toEqual(current_datetime.getTime())
         expect(entries[0].stop_datetime).to.be.undefined
     })
 
 
     it("person is active", () =>
     {
-        const { entries } = _toggle_person_activity({ entries: [
+        const current_datetime = new Date()
+        const { entries } = _toggle_person_activity({ current_datetime, entries: [
             {
                 person: "Alice",
                 start_datetime: new Date(),
@@ -24,13 +26,14 @@ describe("test _toggle_person_activity", () =>
         ] }, toggle_person_activity("Alice"))
         expect(entries.length).toEqual(1)
         expect(entries[0].person).toEqual("Alice")
-        expect(entries[0].stop_datetime?.getTime()).to.be.approximately(new Date().getTime(), 10)
+        expect(entries[0].stop_datetime?.getTime()).toEqual(current_datetime.getTime())
     })
 
 
     it("person is inactive", () =>
     {
-        const { entries } = _toggle_person_activity({ entries: [
+        const current_datetime = new Date()
+        const { entries } = _toggle_person_activity({ current_datetime, entries: [
             {
                 person: "Alice",
                 start_datetime: new Date(),
@@ -39,14 +42,15 @@ describe("test _toggle_person_activity", () =>
         ] }, toggle_person_activity("Alice"))
         expect(entries.length).toEqual(2)
         expect(entries[1].person).toEqual("Alice")
-        expect(entries[1].start_datetime.getTime()).to.be.approximately(new Date().getTime(), 10)
+        expect(entries[1].start_datetime.getTime()).toEqual(current_datetime.getTime())
         expect(entries[1].stop_datetime).to.be.undefined
     })
 
 
     it("someone else is active", () =>
     {
-        const { entries } = _toggle_person_activity({ entries: [
+        const current_datetime = new Date()
+        const { entries } = _toggle_person_activity({ current_datetime, entries: [
             {
                 person: "Bob",
                 start_datetime: new Date(),
@@ -55,14 +59,15 @@ describe("test _toggle_person_activity", () =>
         ] }, toggle_person_activity("Alice"))
         expect(entries.length).toEqual(2)
         expect(entries[1].person).toEqual("Alice")
-        expect(entries[1].start_datetime.getTime()).to.be.approximately(new Date().getTime(), 10)
+        expect(entries[1].start_datetime.getTime()).toEqual(current_datetime.getTime())
         expect(entries[1].stop_datetime).to.be.undefined
     })
 
 
     it("someone else is inactive", () =>
     {
-        const { entries } = _toggle_person_activity({ entries: [
+        const current_datetime = new Date()
+        const { entries } = _toggle_person_activity({ current_datetime, entries: [
             {
                 person: "Bob",
                 start_datetime: new Date(),
@@ -71,7 +76,7 @@ describe("test _toggle_person_activity", () =>
         ] }, toggle_person_activity("Alice"))
         expect(entries.length).toEqual(2)
         expect(entries[1].person).toEqual("Alice")
-        expect(entries[1].start_datetime.getTime()).to.be.approximately(new Date().getTime(), 10)
+        expect(entries[1].start_datetime.getTime()).toEqual(current_datetime.getTime())
         expect(entries[1].stop_datetime).to.be.undefined
     })
 })

@@ -16,22 +16,23 @@ export function elapsed_time_str (datetime1: Date, datetime2?: Date)
 
     const time_diff_s = Math.round(time_diff_ms / 1000)
 
-    return seconds_to_string(time_diff_s)
+    return seconds_to_string(time_diff_s, { always_include_seconds: true })
 }
 
 
-export function seconds_to_string (seconds: number)
+export function seconds_to_string (seconds: number, options?: { always_include_minutes?: boolean, always_include_seconds?: boolean })
 {
     const partial_seconds = seconds % 60
     const minutes = Math.floor(seconds / 60)
 
     let time_string = ""
 
-    if (minutes) {
+    if (minutes || options?.always_include_minutes)
+    {
         time_string += `${minutes}m`
     }
 
-    if (partial_seconds)
+    if (partial_seconds || options?.always_include_seconds)
     {
         time_string += ` ${partial_seconds}s`
     }
