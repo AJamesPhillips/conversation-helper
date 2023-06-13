@@ -23,7 +23,7 @@ export function ConversationSettings ()
                 type="number"
                 style={{ width: 50 }}
                 value={target_time_share_minutes}
-                onChange={e => set_target_time_share_minutes(parseFloat(e.target.value))}
+                onChange={e => set_target_time_share_minutes(parseFloat((e.target as HTMLInputElement).value))}
                 onBlur={e => dispatch(update_target_time_share_minutes(target_time_share_minutes))}
             /> (minutes)
         </div>
@@ -32,7 +32,7 @@ export function ConversationSettings ()
                 type="number"
                 style={{ width: 50 }}
                 value={rounds_of_sharing}
-                onChange={e => set_rounds_of_sharing(parseFloat(e.target.value))}
+                onChange={e => set_rounds_of_sharing(parseFloat((e.target as HTMLInputElement).value))}
                 onBlur={e => dispatch(update_rounds_of_sharing(rounds_of_sharing))}
             />
         </div>

@@ -64,7 +64,7 @@ function NewPersonForm (props: { show_edit_options: boolean, existing_people: Pe
         <input
             type="text"
             value={new_person_name}
-            onChange={e => set_new_person_name(e.target.value)}
+            onChange={e => set_new_person_name((e.target as HTMLInputElement).value)}
             onKeyDown={e =>
             {
                 if (e.key === "Enter")
