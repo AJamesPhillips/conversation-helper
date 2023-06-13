@@ -29,7 +29,7 @@ export function sync_state_with_url ()
 
     if (time_str)
     {
-        const time_minutes = parseInt(time_str, 10)
+        const time_minutes = parseFloat(time_str)
         dispatch(update_target_time_share_minutes(time_minutes))
     }
 
