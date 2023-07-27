@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "../state/hooks"
 import { toggle_person_activity } from "../state/activity_log"
 import { seconds_to_string } from "../utils/time"
 import { select_show_times, set_show_times } from "../state/view"
+import { UnderOvershareTimeArgs, underovershare_time } from "./utils/underovershare_time"
 
 
 interface Props
@@ -94,18 +95,6 @@ function person_px_size (size: number): number
 }
 
 
-interface UnderOvershareTimeArgs
-{
-    time_taken_s: number
-    target_time_share_s: number
-    global_min_time_taken_s: number
-    global_min2_time_taken_s: number
-}
-export function underovershare_time ({ time_taken_s, target_time_share_s, global_min_time_taken_s, global_min2_time_taken_s }: UnderOvershareTimeArgs)
-{
-    const base_line = time_taken_s === global_min_time_taken_s ? global_min2_time_taken_s : global_min_time_taken_s
-    return target_time_share_s - time_taken_s + base_line
-}
 
 function underovershare_time_str (args: UnderOvershareTimeArgs)
 {
