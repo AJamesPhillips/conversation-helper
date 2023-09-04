@@ -7,6 +7,8 @@ A simple app to help make sure everyone gets a fair chance to contribute to a co
 
 ## Dev
 
+    npm run dev
+
 Follow this scaffolding guide: https://vitejs.dev/guide/#scaffolding-your-first-vite-project
 
 ### Run tests
