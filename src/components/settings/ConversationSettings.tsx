@@ -4,15 +4,43 @@ import { useAppDispatch, useAppSelector } from "../../state/hooks"
 import { select_non_deleted_people } from "../../state/people"
 
 
+function parse_bounded_float (args: { str: string, default: number, min: number, max?: number })
+{
+    let value = parseFloat(args.str)
+    if (Number.isNaN(value))
+    {
+        return args.default
+    }
+
+    value = Math.min(Math.max(value, args.min), args.max ?? Infinity)
+
+    return value
+}
+
+function parse_bound_int (args: { str: string, default: number, min: number, max?: number })
+{
+    return Math.round(parse_bounded_float(args))
+}
+
 
 export function ConversationSettings ()
 {
     const no_people = useAppSelector(select_non_deleted_people).length
-    const [target_time_share_minutes_str, set_target_time_share_minutes_str] = useState(""+useAppSelector(select_target_time_share_minutes))
-    const [rounds_of_sharing_str, set_rounds_of_sharing_str] = useState(""+useAppSelector(select_rounds_of_sharing))
+    const target_time_share_minutes_default = useAppSelector(select_target_time_share_minutes)
+    const rounds_of_sharing_default = useAppSelector(select_rounds_of_sharing)
+    const [target_time_share_minutes_str, set_target_time_share_minutes_str] = useState(target_time_share_minutes_default.toString())
+    const [rounds_of_sharing_str, set_rounds_of_sharing_str] = useState(rounds_of_sharing_default.toString())
 
-    const target_time_share_minutes = parseFloat(target_time_share_minutes_str)
-    const rounds_of_sharing = parseFloat(rounds_of_sharing_str)
+    const target_time_share_minutes = parse_bounded_float({
+        str: target_time_share_minutes_str,
+        default: target_time_share_minutes_default,
+        min: 0,
+    })
+    const rounds_of_sharing = parse_bound_int({
+        str: rounds_of_sharing_str,
+        default: rounds_of_sharing_default,
+        min: 1,
+    })
 
     let conversation_length_minutes: string | number = rounds_of_sharing * no_people * target_time_share_minutes
     conversation_length_minutes = Number.isNaN(conversation_length_minutes) ? "..." : conversation_length_minutes
@@ -27,7 +55,11 @@ export function ConversationSettings ()
                 style={{ width: 50 }}
                 value={target_time_share_minutes_str}
                 onChange={e => set_target_time_share_minutes_str((e.target as HTMLInputElement).value)}
-                onBlur={e => dispatch(update_target_time_share_minutes(target_time_share_minutes))}
+                onBlur={e =>
+                {
+                    set_target_time_share_minutes_str(target_time_share_minutes.toString())
+                    dispatch(update_target_time_share_minutes(target_time_share_minutes))
+                }}
             /> (minutes)
         </div>
         <div>
@@ -36,7 +68,11 @@ export function ConversationSettings ()
                 style={{ width: 50 }}
                 value={rounds_of_sharing_str}
                 onChange={e => set_rounds_of_sharing_str((e.target as HTMLInputElement).value)}
-                onBlur={e => dispatch(update_rounds_of_sharing(rounds_of_sharing))}
+                onBlur={e =>
+                {
+                    set_rounds_of_sharing_str(rounds_of_sharing.toString())
+                    dispatch(update_rounds_of_sharing(rounds_of_sharing))
+                }}
             />
         </div>
         <div>
