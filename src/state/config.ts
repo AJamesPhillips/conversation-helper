@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 import type { RootState } from "./store"
+import { get_state_from_url } from "./sync_state_from_url"
 
 
 export const default_target_time_share_minutes = 3
@@ -13,12 +14,32 @@ interface ConfigState
     rounds_of_sharing: number
 }
 
-// Define the initial state using that type
-const initial_state: ConfigState =
+function get_initial_state (): ConfigState
 {
-    target_time_share_minutes: default_target_time_share_minutes,
-    rounds_of_sharing: default_rounds_of_sharing,
+    let target_time_share_minutes = default_target_time_share_minutes
+    let rounds_of_sharing = default_rounds_of_sharing
+
+    // Get state from URL
+    const { time_str, rounds_str } = get_state_from_url()
+
+    if (time_str)
+    {
+        target_time_share_minutes = parseFloat(time_str)
+    }
+
+    if (rounds_str)
+    {
+        rounds_of_sharing = parseInt(rounds_str)
+    }
+
+    return {
+        target_time_share_minutes,
+        rounds_of_sharing,
+    }
 }
+
+
+const initial_state = get_initial_state()
 
 export const config_slice = createSlice({
     name: "config",

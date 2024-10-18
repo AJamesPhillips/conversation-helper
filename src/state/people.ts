@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import type { RootState } from "./store"
 import { Person } from "../interfaces"
+import { get_state_from_url } from "./sync_state_from_url"
 
 
 // Define a type for the slice state
@@ -9,15 +10,31 @@ interface PeopleState
     people: Person[]
 }
 
-// Define the initial state using that type
-const initial_state: PeopleState =
+function get_initial_state (): PeopleState
 {
-    people: [
+    let people: Person[] = [
         // {id: "shirley", name: "Shirley"},
         // {id: "jeremy", name: "Jeremy"},
         // {id: "james", name: "James"},
     ]
+
+    const { people_strs } = get_state_from_url()
+
+    // Update app state
+    people_strs.forEach(person_name =>
+    {
+        people.push({
+            id: person_name.toLowerCase(),
+            name: person_name,
+            deleted: false,
+        })
+    })
+
+    return { people }
 }
+
+
+const initial_state: PeopleState = get_initial_state()
 
 export const people_slice = createSlice({
     name: "people",
